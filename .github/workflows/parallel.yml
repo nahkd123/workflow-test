@@ -42,12 +42,12 @@ jobs:
       - name: Download Module 1 Artifact
         uses: actions/download-artifact@v3
         with:
-          name: Moudle 1
+          name: Module 1
           path: module1/
       - name: Download Module 2 Artifact
         uses: actions/download-artifact@v3
         with:
-          name: Moudle 2
+          name: Module 2
           path: module2/
       - run: |
           ls -R
