@@ -17,6 +17,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
+          name: Module 1
           path: module1/
   buildModule2:
     name: Build Module 2
@@ -30,6 +31,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
+          name: Module 2
           path: module2/
   mainJob:
     name: Main Job
@@ -37,8 +39,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Download all artifacts
+      - name: Download Module 1 Artifact
         uses: actions/download-artifact@v3
+        with:
+          name: Moudle 1
+          path: module1/
+      - name: Download Module 2 Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Moudle 2
+          path: module2/
       - run: |
           ls -R
           test -e module1/index.md
