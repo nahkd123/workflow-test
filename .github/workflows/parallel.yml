@@ -1,0 +1,46 @@
+name: Build modules in parallel and use them all at once
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  buildModule1:
+    name: Build Module 1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run build command
+        run: |
+          mkdir module1
+          echo "# Hello Module 1!" > module1/index.md
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Module 1
+          path: module1/
+  buildModule2:
+    name: Build Module 2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run build command
+        run: |
+          mkdir module2
+          echo "# Hello Module 2!" > module2/index.md
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Module 2
+          path: module2/
+  mainJob:
+    name: Main Job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+      - run: |
+          ls -la
+          test -e module1/index.md
+          test -e module2/index.md
